@@ -1,7 +1,7 @@
-(ns defexception.other-test
+(ns com.rpl.defexception.other-test
   (:require [clojure.test :refer :all]
-            [defexception.core-test :refer [->TestException]])
-  (:import [defexception.core_test TestException]))
+            [com.rpl.defexception-test :refer [->TestException]])
+  (:import [com.rpl.defexception_test TestException]))
 
 ;; this is simply testing the import of an exception from a namespace
 ;; where it's defined

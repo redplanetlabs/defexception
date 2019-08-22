@@ -1,6 +1,6 @@
-(ns defexception.core-test
+(ns com.rpl.defexception-test
   (:require [clojure.test :refer :all]
-            [defexception.core :refer [defexception]]
+            [com.rpl.defexception :refer [defexception]]
             [clojure.java.io :as io]))
 
 (defexception MyException)
@@ -39,7 +39,7 @@
 
 (deftest has-aoted
   (is (..
-       (io/file *compile-path* "defexception/core_test/TestException.class")
+       (io/file *compile-path* "com/rpl/defexception_test/TestException.class")
        exists)))
 
 (deftest aot-class-test

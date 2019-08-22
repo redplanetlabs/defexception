@@ -1,6 +1,6 @@
-(ns defexception.core
+(ns com.rpl.defexception
   (:require [clojure.string :as string]
-            [defexception.impl]))
+            [com.rpl.defexception.impl :as impl]))
 
 (defmacro defexception
   "Dynamically creates an clojure.lang.ExceptionInfo class using JVM
@@ -35,14 +35,14 @@
   (user/MyException. \"This is a Message\" {} (Exception. \"A message\"))"
   [t]
   (let [class-name (str (string/replace (str *ns*) "-" "_") "." t)]
-    `(let [x# (defexception.impl/load-or-mk-ex-info-class ~class-name)]
+    `(let [x# (impl/load-or-mk-ex-info-class ~class-name)]
        (import ~(symbol class-name))
        (defn ~(symbol (str "->" t))
-         ([] (defexception.impl/make-ex x# nil {} nil))
+         ([] (impl/make-ex x# nil {} nil))
          ([~'msg-o-data]
           (if (map? ~'msg-o-data)
-            (defexception.impl/make-ex x# nil ~'msg-o-data nil)
-            (defexception.impl/make-ex x# ~'msg-o-data {} nil)))
-         ([~'msg ~'data] (defexception.impl/make-ex x# ~'msg ~'data nil))
-         ([~'msg ~'data ~'cause] (defexception.impl/make-ex x# ~'msg ~'data ~'cause)))
+            (impl/make-ex x# nil ~'msg-o-data nil)
+            (impl/make-ex x# ~'msg-o-data {} nil)))
+         ([~'msg ~'data] (impl/make-ex x# ~'msg ~'data nil))
+         ([~'msg ~'data ~'cause] (impl/make-ex x# ~'msg ~'data ~'cause)))
        x#)))

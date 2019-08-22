@@ -1,12 +1,8 @@
 # defexception
 [![Build Status](https://travis-ci.org/redplanetlabs/defexception.svg?branch=master)](https://travis-ci.org/redplanetlabs/defexception)
-[![Clojars Project](https://img.shields.io/clojars/v/defexception.svg)](https://clojars.org/defexception)
+[![Clojars Project](https://img.shields.io/clojars/v/com.rpl/defexception.svg)](https://clojars.org/com.rpl/defexception)
 
 A simple Clojure library that allows one to dynamically define Java Exception classes in Clojure.
-
-```clj
-[defexception "0.0.1-SNAPSHOT"]
-```
 
 ## Motivation
 
@@ -14,13 +10,15 @@ Sometimes you just want a quick Exception class that you can catch
 directly. `defexception` uses `clojure.asm` to dynamically create a
 Java class that directly inherits from `clojure.lang.ExceptionInfo`.
 
+The created exception class does not add any behavior to `clojure.lang.ExceptonInfo`.
+
 ## Usage
 
 To create your own exception class you can do this:
 
 ```clojure
 (ns foo.bar
- (:require '[defexception.core :refer [defexception]]))
+ (:require '[com.rpl.defexception :refer [defexception]]))
 
 (defexception MyException)
 ```
@@ -39,8 +37,6 @@ Now you can do this:
     (ex-data e)))
 ;; => {:my-bad 1}
 ```
-
-The above expression will return `{:my-bad 1}`.
 
 The generated `->MyException` helper function has several signatures
 to help you instantiate your exception.
