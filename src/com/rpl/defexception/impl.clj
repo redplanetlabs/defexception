@@ -27,7 +27,9 @@
         internal-name
         (string/replace exception-class-name "." "/")]
     (.visit cw
-            Opcodes/V1_7
+            ;; this allows compatibility back to Clojure 1.4
+            ;; and is = clojure.asm.Opcodes/V1_7
+            (inc clojure.asm.Opcodes/V1_6)
             (+ Opcodes/ACC_SUPER Opcodes/ACC_PUBLIC)
             internal-name
             nil
@@ -49,18 +51,23 @@
 (def ^:private ex-info-const
   (memoize
    (fn [^Class klass cause?]
-     (.getConstructor
-      klass
-      (into-array Class
-                  (cond-> [String clojure.lang.IPersistentMap]
-                    cause? (conj Throwable)))))))
+     (let [arg-types [String clojure.lang.IPersistentMap]]
+       (.getConstructor
+        klass
+        (into-array Class
+                    (if cause?
+                      (conj arg-types Throwable)
+                      arg-types)))))))
 
 (defn make-ex
   "use reflection to instantiate the exception class"
   [^Class klass msg data cause]
   (let [constr ^java.lang.reflect.Constructor (ex-info-const klass cause)
-        args (object-array (cond-> [msg (or data {})]
-                                  cause (conj cause)))]
-    (.newInstance constr args)))
+        args [msg (or data {})]]
+    (.newInstance constr
+                  (object-array
+                   (if cause
+                     (conj args cause)
+                     args)))))
 
 
