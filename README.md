@@ -1,4 +1,5 @@
 # defexception
+[![Build Status](https://travis-ci.org/redplanetlabs/defexception.svg?branch=master)](https://travis-ci.org/redplanetlabs/defexception)
 [![Clojars Project](https://img.shields.io/clojars/v/defexception.svg)](https://clojars.org/defexception)
 
 A simple Clojure library that allows one to dynamically define Java Exception classes in Clojure.
