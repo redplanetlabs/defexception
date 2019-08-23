@@ -10,7 +10,7 @@ Sometimes you just want a quick Exception class that you can catch
 directly. `defexception` uses `clojure.asm` to dynamically create a
 Java class that directly inherits from `clojure.lang.ExceptionInfo`.
 
-The created exception class does not add any behavior to `clojure.lang.ExceptonInfo`.
+The created exception class does not add any behavior to `clojure.lang.ExceptionInfo`.
 
 ## Usage
 
