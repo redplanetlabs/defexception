@@ -70,4 +70,9 @@
                      (conj args cause)
                      args)))))
 
-
+(defn hyphenate [sym]
+  (-> (name sym)
+      (string/replace #"([A-Z]+)([A-Z][a-z])" "$1-$2")
+      (string/replace #"([a-z\d])([A-Z])" "$1-$2")
+      (string/replace #"_" "-")
+      (string/lower-case)))

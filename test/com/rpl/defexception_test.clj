@@ -60,3 +60,8 @@
     (is (= "Message" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex)))
     (is (= cause (.getCause ex)))))
+
+(deftest rebindable-function
+  (is (thrown? TestException (*test-exception* "blah" {})))
+  (binding [*test-exception* (fn [m data] data)]
+    (is (= {:a 1} (*test-exception* "blah" {:a 1})))))

@@ -29,15 +29,27 @@
 
   (.getMessage (->MyException \"This is a message\")) => \"This is a message\"
 
+  or use the dynamically rebindable function *my-exception* to create and raise
+  an exception with the possibility of being rebound to a function that fixes
+  the problem.
+
+  (*my-exception* \"message\" {:hello 1})  ;=> raises a MyException.
+
+  (binding [*my-exception* (fn [message data] (do-something-with data))]
+    ...
+    (*my-exception* \"something went wrong\" {:maybe-this-helps 3}))
+
   or invoke the constructors directly
 
   (user/MyException. \"This is a Message\" {})
   (user/MyException. \"This is a Message\" {} (Exception. \"A message\"))"
   [t]
-  (let [class-name (str (string/replace (str *ns*) "-" "_") "." t)]
+  (let [class-name (str (string/replace (str *ns*) "-" "_") "." t)
+        ctor (symbol (str "->" t))
+        dynamic (symbol (str "*" (impl/hyphenate t) "*"))]
     `(let [x# (impl/load-or-mk-ex-info-class ~class-name)]
        (import ~(symbol class-name))
-       (defn ~(symbol (str "->" t))
+       (defn ~ctor
          ([] (impl/make-ex x# nil {} nil))
          ([~'msg-o-data]
           (if (map? ~'msg-o-data)
@@ -45,4 +57,6 @@
             (impl/make-ex x# ~'msg-o-data {} nil)))
          ([~'msg ~'data] (impl/make-ex x# ~'msg ~'data nil))
          ([~'msg ~'data ~'cause] (impl/make-ex x# ~'msg ~'data ~'cause)))
+       (defn ~(with-meta dynamic {:dynamic true}) [~'msg ~'data]
+         (throw (~ctor ~'msg ~'data)))
        x#)))
