@@ -7,7 +7,7 @@ A simple Clojure library that allows one to dynamically define Java Exception cl
 ## Motivation
 
 Sometimes you just want a quick Exception class that you can catch
-directly. `defexception` uses `clojure.asm` to dynamically create a
+directly. `defexception` uses Java bytecode to dynamically create a
 Java class that directly inherits from `clojure.lang.ExceptionInfo`.
 
 The created exception class does not add any behavior to `clojure.lang.ExceptonInfo`.
