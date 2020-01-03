@@ -38,10 +38,10 @@
     `(let [x# (impl/load-or-mk-ex-info-class ~class-name)]
        (import ~(symbol class-name))
        (defn ~(symbol (str "->" t))
-         ([] (impl/make-ex x# nil {} nil))
+         ([] (impl/make-ex x# ~(name t) {} nil))
          ([~'msg-o-data]
           (if (map? ~'msg-o-data)
-            (impl/make-ex x# nil ~'msg-o-data nil)
+            (impl/make-ex x# ~(name t) ~'msg-o-data nil)
             (impl/make-ex x# ~'msg-o-data {} nil)))
          ([~'msg ~'data] (impl/make-ex x# ~'msg ~'data nil))
          ([~'msg ~'data ~'cause] (impl/make-ex x# ~'msg ~'data ~'cause)))

@@ -20,13 +20,13 @@
 
 (deftest dynamic-exception-class-const-fn
   (let [ex (->MyException)]
-    (is (= nil (.getMessage ex)))
+    (is (= "MyException" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->MyException "Message")]
     (is (= "Message" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->MyException {:hello 1})]
-    (is (= nil (.getMessage ex)))
+    (is (= "MyException" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex))))
   (let [ex (->MyException "Message" {:hello 1})]
     (is (= "Message" (.getMessage ex)))
@@ -44,13 +44,13 @@
 
 (deftest aot-class-test
   (let [ex (->TestException)]
-    (is (= nil (.getMessage ex)))
+    (is (= "TestException" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->TestException "Message")]
     (is (= "Message" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->TestException {:hello 1})]
-    (is (= nil (.getMessage ex)))
+    (is (= "TestException" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex))))
   (let [ex (->TestException "Message" {:hello 1})]
     (is (= "Message" (.getMessage ex)))

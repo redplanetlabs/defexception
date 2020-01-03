@@ -8,13 +8,13 @@
 
 (deftest aot-class-test
   (let [ex (->TestException)]
-    (is (= nil (.getMessage ex)))
+    (is (= "TestException" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->TestException "Message")]
     (is (= "Message" (.getMessage ex)))
     (is (= {} (ex-data ex))))
   (let [ex (->TestException {:hello 1})]
-    (is (= nil (.getMessage ex)))
+    (is (= "TestException" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex))))
   (let [ex (->TestException "Message" {:hello 1})]
     (is (= "Message" (.getMessage ex)))
@@ -24,6 +24,3 @@
     (is (= "Message" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex)))
     (is (= cause (.getCause ex)))))
-
-
-
