@@ -12,6 +12,44 @@
     (.returnValue)
     (.endMethod)))
 
+(defn- to-string-method [^ClassWriter cw ^String exception-class-name]
+  (let [string (Type/getType String)
+        string-builder (Type/getType StringBuilder)
+        string-append (Method/getMethod
+                        "java.lang.StringBuilder append (java.lang.String)")
+        to-string (Method/getMethod "java.lang.String toString ()")]
+    (doto (GeneratorAdapter. Opcodes/ACC_PUBLIC to-string nil nil cw)
+      (.newInstance string)
+      (.dup)
+
+      (.newInstance string-builder)
+      (.dup)
+      (.invokeConstructor string-builder (Method/getMethod "void <init> ()"))
+
+      (.push (str exception-class-name ": "))
+      (.invokeVirtual string-builder string-append)
+
+      (.loadThis)
+      (.invokeVirtual (Type/getType Exception) (Method/getMethod "String getMessage ()"))
+      (.invokeVirtual string-builder string-append)
+
+      (.push " ")
+      (.invokeVirtual string-builder string-append)
+
+      (.loadThis)
+      (.getField (Type/getType clojure.lang.ExceptionInfo)
+                 "data"
+                 (Type/getType clojure.lang.IPersistentMap))
+      (.invokeVirtual (Type/getType Object) to-string)
+      (.invokeVirtual string-builder string-append)
+
+      (.invokeConstructor
+        string
+        (Method/getMethod "void <init> (java.lang.StringBuilder)"))
+
+      (.returnValue)
+      (.endMethod))))
+
 (defn- define-class [^clojure.lang.DynamicClassLoader cl ^String name ^ClassWriter cw]
   (let [klass (.defineClass cl name (.toByteArray cw) nil)]
     (when *compile-files*
@@ -24,8 +62,8 @@
   #_(prn :making exception-class-name)
   (let [cw (ClassWriter. (+ ClassWriter/COMPUTE_MAXS ClassWriter/COMPUTE_FRAMES))
         ex-info-type (Type/getType clojure.lang.ExceptionInfo)
-        internal-name
-        (string/replace exception-class-name "." "/")]
+        internal-name (string/replace exception-class-name "." "/")
+        class-name (-> internal-name (string/split #"/") last)]
     (.visit cw
             ;; this allows compatibility back to Clojure 1.4
             ;; and is = clojure.asm.Opcodes/V1_7
@@ -35,8 +73,17 @@
             nil
             (.getInternalName ex-info-type)
             (into-array String []))
-    (forward-constructor cw ex-info-type (Method/getMethod "void <init> (String, clojure.lang.IPersistentMap)"))
-    (forward-constructor cw ex-info-type (Method/getMethod "void <init> (String, clojure.lang.IPersistentMap, Throwable)"))
+    (forward-constructor
+      cw
+      ex-info-type
+      (Method/getMethod "void <init> (String, clojure.lang.IPersistentMap)"))
+    (forward-constructor
+      cw
+      ex-info-type
+      (Method/getMethod "void <init> (String, clojure.lang.IPersistentMap, Throwable)"))
+    (to-string-method
+      cw
+      class-name)
     (.visitEnd cw)
     (define-class
       (clojure.lang.DynamicClassLoader.)
@@ -69,5 +116,3 @@
                    (if cause
                      (conj args cause)
                      args)))))
-
-
