@@ -65,6 +65,6 @@ compilation.
 
 ## License
 
-Copyright © 2019 Red Planet Labs Inc.
+Copyright © 2019 - 2020 Red Planet Labs Inc.
 
 Distributed under the Eclipse Public License version 1.0
