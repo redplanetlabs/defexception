@@ -108,11 +108,14 @@
 
 (defn- fix-stack-trace [ex-info-instance]
   (let [stacktrace (.getStackTrace ex-info-instance)
-        constructor-string-segment (munge
-                                    (str "->"
-                                         (-> ex-info-instance
-                                             class
-                                             (.getSimpleName))))]
+        constructor-pattern (re-pattern
+                             (str ".*"
+                                  (munge
+                                   (str "->"
+                                        (-> ex-info-instance
+                                            class
+                                            (.getSimpleName))))
+                                  ".*"))]
     (doto ex-info-instance
           (.setStackTrace
            (when stacktrace
@@ -120,9 +123,9 @@
                   (drop-while
                    (fn [^StackTraceElement elt]
                      (not
-                      (clojure.string/includes?
-                       (.getClassName elt)
-                       constructor-string-segment))))
+                      (re-matches
+                       constructor-pattern
+                       (.getClassName elt)))))
                   rest
                   (into-array StackTraceElement))))))
   )
