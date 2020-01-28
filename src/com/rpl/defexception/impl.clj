@@ -106,13 +106,34 @@
                       (conj arg-types Throwable)
                       arg-types)))))))
 
+(defn- fix-stack-trace [ex-info-instance]
+  (let [stacktrace (.getStackTrace ex-info-instance)
+        constructor-string-segment (munge
+                                    (str "->"
+                                         (-> ex-info-instance
+                                             class
+                                             (.getSimpleName))))]
+    (doto ex-info-instance
+          (.setStackTrace
+           (when stacktrace
+             (->> stacktrace
+                  (drop-while
+                   (fn [^StackTraceElement elt]
+                     (not
+                      (clojure.string/includes?
+                       (.getClassName elt)
+                       constructor-string-segment))))
+                  rest
+                  (into-array StackTraceElement))))))
+  )
+
 (defn make-ex
   "use reflection to instantiate the exception class"
   [^Class klass msg data cause]
   (let [constr ^java.lang.reflect.Constructor (ex-info-const klass cause)
         args [msg (or data {})]]
-    (.newInstance constr
-                  (object-array
-                   (if cause
-                     (conj args cause)
-                     args)))))
+    (fix-stack-trace (.newInstance constr
+                                   (object-array
+                                    (if cause
+                                      (conj args cause)
+                                      args))))))
