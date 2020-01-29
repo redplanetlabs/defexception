@@ -106,13 +106,37 @@
                       (conj arg-types Throwable)
                       arg-types)))))))
 
+(defn- fix-stack-trace [ex-info-instance]
+  (let [stacktrace (.getStackTrace ex-info-instance)
+        constructor-pattern (re-pattern
+                             (str ".*"
+                                  (munge
+                                   (str "->"
+                                        (-> ex-info-instance
+                                            class
+                                            (.getSimpleName))))
+                                  ".*"))
+        updated-stacktrace (->> stacktrace
+                                (drop-while
+                                 (fn [^StackTraceElement elt]
+                                   (not
+                                    (re-matches
+                                     constructor-pattern
+                                     (.getClassName elt)))))
+                                rest
+                                (into-array StackTraceElement))]
+    (when stacktrace
+      (.setStackTrace ex-info-instance updated-stacktrace))
+    ex-info-instance)
+  )
+
 (defn make-ex
   "use reflection to instantiate the exception class"
   [^Class klass msg data cause]
   (let [constr ^java.lang.reflect.Constructor (ex-info-const klass cause)
         args [msg (or data {})]]
-    (.newInstance constr
-                  (object-array
-                   (if cause
-                     (conj args cause)
-                     args)))))
+    (fix-stack-trace (.newInstance constr
+                                   (object-array
+                                    (if cause
+                                      (conj args cause)
+                                      args))))))

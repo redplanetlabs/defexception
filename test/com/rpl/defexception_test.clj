@@ -72,3 +72,20 @@
     (is (= {:hello 1} (ex-data ex)))
     (is (= cause (.getCause ex)))
     (is (= "TestException: Message {:hello 1}" (str ex)))))
+
+(defmacro line [] (-> &form meta :line))
+(defmacro cur-file [] *file*)
+
+(deftest stack-trace-test
+  (let [ex (->TestException)
+        instantiation-line-no (dec (line))]
+    (try
+      (throw ex)
+      (catch TestException e
+        (let [first-stack-trace-element (first (.getStackTrace e))
+              line-no (.getLineNumber first-stack-trace-element)
+              file-name (.getFileName first-stack-trace-element)]
+          (is (= instantiation-line-no line-no))
+          (is (= (last (clojure.string/split (cur-file) #"/")) file-name))
+          ))))
+  )
