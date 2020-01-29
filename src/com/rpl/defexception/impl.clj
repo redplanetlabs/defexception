@@ -115,19 +115,19 @@
                                         (-> ex-info-instance
                                             class
                                             (.getSimpleName))))
-                                  ".*"))]
-    (doto ex-info-instance
-          (.setStackTrace
-           (when stacktrace
-             (->> stacktrace
-                  (drop-while
-                   (fn [^StackTraceElement elt]
-                     (not
-                      (re-matches
-                       constructor-pattern
-                       (.getClassName elt)))))
-                  rest
-                  (into-array StackTraceElement))))))
+                                  ".*"))
+        updated-stacktrace (->> stacktrace
+                                (drop-while
+                                 (fn [^StackTraceElement elt]
+                                   (not
+                                    (re-matches
+                                     constructor-pattern
+                                     (.getClassName elt)))))
+                                rest
+                                (into-array StackTraceElement))]
+    (when stacktrace
+      (.setStackTrace ex-info-instance updated-stacktrace))
+    ex-info-instance)
   )
 
 (defn make-ex
