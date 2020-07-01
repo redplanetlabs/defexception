@@ -18,7 +18,7 @@ To create your own exception class you can do this:
 
 ```clojure
 (ns foo.bar
- (:require '[com.rpl.defexception :refer [defexception]]))
+ (:require [com.rpl.defexception :refer [defexception]]))
 
 (defexception MyException)
 ```
