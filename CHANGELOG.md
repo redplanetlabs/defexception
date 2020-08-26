@@ -2,9 +2,6 @@
 
 ## [Unreleased]
 ### Changed
-- fix changelog
-- add dependency info to readme
-- add clojars doc link to readme
 - update to clojure 1.10.1
 
 ## [0.2.0] - 2020-01-29
