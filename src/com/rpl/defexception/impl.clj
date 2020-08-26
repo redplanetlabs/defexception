@@ -1,4 +1,4 @@
-(ns com.rpl.defexception.impl
+(ns ^:no-doc com.rpl.defexception.impl
   (:require [clojure.string :as string])
   (:import [clojure.asm MethodVisitor
             ClassVisitor ClassWriter Opcodes Type]
