@@ -8,7 +8,7 @@
             [lein-shell "0.5.0"]
             [lein-ancient "0.6.15"]
             [lein-changelog "0.3.2"]]
-  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.0"]]}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.10.1"]]}
              :1.2 {:dependencies [[org.clojure/clojure "1.2.0"]]}
              :1.3 {:dependencies [[org.clojure/clojure "1.3.0"]]}
              :1.4 {:dependencies [[org.clojure/clojure "1.4.0"]]}

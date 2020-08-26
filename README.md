@@ -1,6 +1,8 @@
 # defexception
 [![Build Status](https://travis-ci.org/redplanetlabs/defexception.svg?branch=master)](https://travis-ci.org/redplanetlabs/defexception)
 [![Clojars Project](https://img.shields.io/clojars/v/com.rpl/defexception.svg)](https://clojars.org/com.rpl/defexception)
+[![cljdoc
+badge](https://cljdoc.org/badge/com.rpl/defexception)](https://cljdoc.org/d/com.rpl/defexception/CURRENT)
 
 A simple Clojure library that allows one to dynamically define Java Exception classes in Clojure.
 
@@ -11,6 +13,21 @@ directly. `defexception` uses Java bytecode to dynamically create a
 Java class that directly inherits from `clojure.lang.ExceptionInfo`.
 
 The created exception class does not add any behavior to `clojure.lang.ExceptionInfo`.
+
+## Dependency
+
+
+[deps.edn](https://clojure.org/guides/deps_and_cli) dependency information:
+
+```
+com.rpl/defexception {:mvn/version "0.2.0"}
+```
+
+[Leiningen](https://github.com/technomancy/leiningen/) dependency information:
+
+```
+[com.rpl/defexception "0.2.0"]
+```
 
 ## Usage
 
@@ -43,16 +60,16 @@ to help you instantiate your exception.
 
 ```clojure
 ;; creates an exception with no message or ex-data
-(->MyException) 
+(->MyException)
 
 ;; creates an exception with only ex-data
-(->MyException {:hello 1}) 
+(->MyException {:hello 1})
 
 ;; creates an exception with only a message
-(->MyException "My Bad!") 
+(->MyException "My Bad!")
 
 ;; creates an exception with both a message and ex-data
-(->MyException "My Bad!" {:hello 1}) 
+(->MyException "My Bad!" {:hello 1})
 
 ;; creates an exception with a message, ex-data and a cause
 (->MyException "My Bad!" {:hello 1} (Exception. "The cause"))
