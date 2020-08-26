@@ -3,6 +3,7 @@
   :url "https://github.com/redplanetlabs/defexception"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :scm {:name "git" :url "https://github.com/redplanetlabs/defexception"}
   :dependencies []
   :plugins [#_[lein-cloverage "1.0.13"]
             [lein-shell "0.5.0"]
