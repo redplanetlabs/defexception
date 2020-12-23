@@ -1,7 +1,8 @@
 (ns com.rpl.defexception-test
   (:require [clojure.test :refer :all]
             [com.rpl.defexception :refer [defexception]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:import [com.rpl.defexception IDefException]))
 
 (defexception MyException)
 
@@ -10,11 +11,13 @@
 
 (deftest dynamic-exception-class-test
   (let [ex (MyException. "Message" {:hello 1})]
+    (is (instance? IDefException ex))
     (is (= "Message" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex)))
     (is (= "MyException: Message {:hello 1}" (str ex))))
   (let [cause (Exception. "Cause")
         ex (MyException. "Message" {:hello 1} cause)]
+    (is (not (instance? IDefException cause)))
     (is (= "Message" (.getMessage ex)))
     (is (= {:hello 1} (ex-data ex)))
     (is (= cause (.getCause ex)))

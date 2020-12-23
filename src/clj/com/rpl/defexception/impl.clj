@@ -2,7 +2,8 @@
   (:require [clojure.string :as string])
   (:import [clojure.asm MethodVisitor
             ClassVisitor ClassWriter Opcodes Type]
-           [clojure.asm.commons GeneratorAdapter Method]))
+           [clojure.asm.commons GeneratorAdapter Method]
+           [com.rpl.defexception IDefException]))
 
 (defn- forward-constructor [^ClassWriter cw ^Type t ^Method constr]
   (doto (GeneratorAdapter. Opcodes/ACC_PUBLIC constr nil nil cw)
@@ -72,7 +73,7 @@
             internal-name
             nil
             (.getInternalName ex-info-type)
-            (into-array String []))
+            (into-array String [(Type/getInternalName IDefException)]))
     (forward-constructor
       cw
       ex-info-type

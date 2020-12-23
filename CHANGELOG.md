@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.2.2] — 2020-12-23
+### Changed
+- Add IDefException interface on generated exception classes
+
 ## [0.2.1] — 2020-08-26
 ### Changed
 - update to clojure 1.10.1
