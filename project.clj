@@ -1,4 +1,4 @@
-(defproject com.rpl/defexception "0.2.1"
+(defproject com.rpl/defexception "0.2.2"
   :description "A simple Clojure library that allows one to dynamically define Java Exception classes in Clojure."
   :url "https://github.com/redplanetlabs/defexception"
   :license {:name "Eclipse Public License"
