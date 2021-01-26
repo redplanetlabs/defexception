@@ -1,7 +1,5 @@
 # Changelog
 
-## [Unreleased]
-
 ## [0.2.2] — 2020-12-23
 ### Changed
 - Add IDefException interface on generated exception classes
