@@ -3,6 +3,7 @@
   (:import [clojure.asm MethodVisitor
             ClassVisitor ClassWriter Opcodes Type]
            [clojure.asm.commons GeneratorAdapter Method]
+           [clojure.lang ExceptionInfo]
            [com.rpl.defexception IDefException]))
 
 (defn- forward-constructor [^ClassWriter cw ^Type t ^Method constr]
@@ -107,7 +108,7 @@
                       (conj arg-types Throwable)
                       arg-types)))))))
 
-(defn- fix-stack-trace [ex-info-instance]
+(defn- fix-stack-trace [^ExceptionInfo ex-info-instance]
   (let [stacktrace (.getStackTrace ex-info-instance)
         constructor-pattern (re-pattern
                              (str ".*"
