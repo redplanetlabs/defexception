@@ -32,6 +32,6 @@
                   ["changelog" "release"]
                   ["update-readme-version"]
                   ["vcs" "commit"]
-                  ["vcs" "tag"]
+                  ["vcs" "tag" "--no-sign"]
                   ["deploy"]
                   ["vcs" "push"]])
