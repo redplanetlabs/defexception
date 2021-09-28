@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.2.4] — 2021-09-28
 ### Fixed
 - release using jdk 1.8
 
@@ -27,4 +29,5 @@
 [0.2.1]: https://github.com/redplanetlabs/defexception/compare/0.2.0...0.2.1
 [0.2.2]: https://github.com/redplanetlabs/defexception/compare/0.2.1...0.2.2
 [0.2.3]: https://github.com/redplanetlabs/defexception/compare/0.2.2...0.2.3
-[Unreleased]: https://github.com/redplanetlabs/defexception/compare/0.2.3...HEAD
+[0.2.4]: https://github.com/redplanetlabs/defexception/compare/0.2.3...0.2.4
+[Unreleased]: https://github.com/redplanetlabs/defexception/compare/0.2.4...HEAD
