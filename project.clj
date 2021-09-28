@@ -21,7 +21,11 @@
              :1.8 {:dependencies [[org.clojure/clojure "1.8.0"]]}
              :1.9 {:dependencies [[org.clojure/clojure "1.9.0"]]}}
   :deploy-repositories [["releases" :clojars]]
-  :aliases {"update-readme-version" ["shell" "sed" "-i" "s/\\\\[defexception \"[0-9.]*\"\\\\]/[defexception \"${:version}\"]/" "README.md"]}
+  :aliases {"update-readme-version"
+            ["shell" "sed" "-I" ".bak"
+             "-e" "s/defexception \"[0-9.]*\"/defexception \"${:version}\"/"
+             "-e" "s/version \"[0-9.]*\"/version \"${:version}\"/"
+             "README.md"]}
   :release-tasks [["shell" "git" "diff" "--exit-code"]
                   ["change" "version" "leiningen.release/bump-version"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
