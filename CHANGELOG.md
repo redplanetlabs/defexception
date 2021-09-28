@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- release using jdk 1.8
 
 ## [0.2.3] — 2021-09-28
 ### Fixed
