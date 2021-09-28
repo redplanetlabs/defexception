@@ -20,13 +20,13 @@ The created exception class does not add any behavior to `clojure.lang.Exception
 [deps.edn](https://clojure.org/guides/deps_and_cli) dependency information:
 
 ```
-com.rpl/defexception {:mvn/version "0.2.1"}
+com.rpl/defexception {:mvn/version "0.2.3"}
 ```
 
 [Leiningen](https://github.com/technomancy/leiningen/) dependency information:
 
 ```
-[com.rpl/defexception "0.2.1"]
+[com.rpl/defexception "0.2.3"]
 ```
 
 ## Usage
