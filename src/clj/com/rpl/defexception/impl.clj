@@ -100,6 +100,7 @@
 (def ^:private ex-info-const
   (memoize
    (fn [^Class klass cause?]
+     (assert (boolean? cause?))
      (let [arg-types [String clojure.lang.IPersistentMap]]
        (.getConstructor
         klass
@@ -135,7 +136,7 @@
 (defn make-ex
   "use reflection to instantiate the exception class"
   [^Class klass msg data cause]
-  (let [constr ^java.lang.reflect.Constructor (ex-info-const klass cause)
+  (let [constr ^java.lang.reflect.Constructor (ex-info-const klass (boolean cause))
         args [msg (or data {})]]
     (fix-stack-trace (.newInstance constr
                                    (object-array
