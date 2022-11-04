@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Use boolean, not instance, in constructor cache key
 
 ## [0.2.4] — 2021-09-28
 ### Fixed
