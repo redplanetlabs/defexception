@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [0.2.5] — 2022-11-04
 ### Fixed
 - Use boolean, not instance, in constructor cache key
 
@@ -32,4 +34,5 @@
 [0.2.2]: https://github.com/redplanetlabs/defexception/compare/0.2.1...0.2.2
 [0.2.3]: https://github.com/redplanetlabs/defexception/compare/0.2.2...0.2.3
 [0.2.4]: https://github.com/redplanetlabs/defexception/compare/0.2.3...0.2.4
-[Unreleased]: https://github.com/redplanetlabs/defexception/compare/0.2.4...HEAD
+[0.2.5]: https://github.com/redplanetlabs/defexception/compare/0.2.4...0.2.5
+[Unreleased]: https://github.com/redplanetlabs/defexception/compare/0.2.5...HEAD
